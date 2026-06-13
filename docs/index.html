@@ -252,6 +252,42 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
+        /* Blog Images */
+        .blog-image-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 35px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-image:hover {
+            transform: scale(1.01);
+        }
+
+        .image-caption {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
         /* Lists */
         ul,
         ol {
@@ -384,18 +420,10 @@
                 sizes in our cleaned dataset:
             </p>
 
-            <!-- Image placeholder for occurrences plot -->
-            <div class="image-placeholder">
-                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-                <div class="placeholder-text">
-                    <strong>Fandom Size Distribution Plot</strong><br>
-                    Add a screenshot of the inclusive Matplotlib plot here (frequency up to 150 works per fandom).
-                </div>
-                <button class="placeholder-btn" onclick="alert('Copy your saved chart image here.')">Add Image</button>
+            <!-- Fandom distribution plot -->
+            <div class="blog-image-container">
+                <img src="fandom_distribution.png" alt="Fandom Size Distribution Plot" class="blog-image">
+                <div class="image-caption">Impact of Occurrence Threshold on Fandom Tags and Works Distribution (cumulative range up to 150).</div>
             </div>
 
             <p>
@@ -440,19 +468,10 @@
                 that specific fandom:
             </p>
 
-            <!-- Image placeholder for popularity scatter plot -->
-            <div class="image-placeholder">
-                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-                <div class="placeholder-text">
-                    <strong>Bridge Author Work Popularity vs. Fandom Size Scatter Plot</strong><br>
-                    Add a screenshot of the log-log popularity ratio vs. fandom size scatter plot here.
-                </div>
-                <button class="placeholder-btn" onclick="alert('Copy your saved scatter plot image here.')">Add
-                    Image</button>
+            <!-- Bridge Author Work Popularity vs. Fandom Size Scatter Plot -->
+            <div class="blog-image-container">
+                <img src="popularity_vs_fandom_size.png" alt="Bridge Author Work Popularity vs. Fandom Size Scatter Plot" class="blog-image">
+                <div class="image-caption">Bridge Author Work Popularity Ratio vs. Fandom Size (relative to fandom median, log-log scale).</div>
             </div>
 
             <p>
@@ -462,6 +481,20 @@
                 correlation, suggesting that while bridge authors are highly active, their popularity relative to the
                 fandom baseline remains mostly uniform across both small and large fandoms.
             </p>
+
+            <h2>5. Deep Dive: Marvel vs. Teen Wolf Crossover</h2>
+            <p>
+                To further investigate this behavior, we isolated the crossover bridge authors between a mega-fandom (<strong>Marvel Cinematic Universe/Avengers</strong>) and a relatively small fandom (<strong>Teen Wolf</strong>). By applying regex filtering to the raw Fandom Tags (excluding crossover works to focus on separate writing instances and preventing duplicate rows), we identified 10 true bridge authors.
+            </p>
+            <p>
+                Our analysis shows that works by these bridge authors in the Teen Wolf fandom achieved a median popularity of 2925 Hits, compared to 1566 Hits in Marvel. However, when comparing their popularity relative to the fandom's baseline, they achieved a higher relative ratio in Marvel (<strong>1.43x</strong> the overall median) than in Teen Wolf (<strong>1.36x</strong>).
+            </p>
+
+            <!-- Marvel vs Teen Wolf Comparison Plot -->
+            <div class="blog-image-container">
+                <img src="marvel_teen_wolf_deep_dive.png" alt="Marvel vs. Teen Wolf Bridge Author Crossover Comparison" class="blog-image">
+                <div class="image-caption">Deep Dive comparison of absolute medians and relative popularity ratios for Marvel vs. Teen Wolf bridge authors (excluding crossover works).</div>
+            </div>
         </article>
 
         <footer>
