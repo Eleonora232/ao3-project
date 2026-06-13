@@ -402,20 +402,33 @@ class AO3FandomClustering:
                     
                     if cluster_u != cluster_v:
                         common_authors = tag_authors[u] & tag_authors[v]
-                        if len(common_authors) > 3:
-                            edges_data.append({
-                                "from": u,
-                                "to": v,
-                                "dashes": True,
-                                "value": float(len(common_authors)),
-                                "title": f"Author Crossover Bridge<br>Fandom A: {u} (Cluster: {cluster_u})<br>Fandom B: {v} (Cluster: {cluster_v})<br>Common Authors ({len(common_authors)}): {', '.join(sorted(list(common_authors))[:5])}{'...' if len(common_authors) > 5 else ''}",
-                                "color": {
-                                    "color": "#805ad5",
-                                    "highlight": "#553c9a",
-                                    "opacity": 0.6
-                                }
-                            })
-                            crossover_edges_added += 1
+                        if len(common_authors) > 0:
+                            true_common_authors = set()
+                            for author in common_authors:
+                                author_works = df_temp[df_temp['author_str'] == author]
+                                works_u = author_works[author_works['parsed_fandoms'].apply(lambda x: u in x)]
+                                works_v = author_works[author_works['parsed_fandoms'].apply(lambda x: v in x)]
+                                
+                                non_crossover_u = works_u[works_u['parsed_fandoms'].apply(lambda x: v not in x)]
+                                non_crossover_v = works_v[works_v['parsed_fandoms'].apply(lambda x: u not in x)]
+                                
+                                if len(non_crossover_u) >= 1 and len(non_crossover_v) >= 1:
+                                    true_common_authors.add(author)
+                                    
+                            if len(true_common_authors) > 3:
+                                edges_data.append({
+                                    "from": u,
+                                    "to": v,
+                                    "dashes": True,
+                                    "value": float(len(true_common_authors)),
+                                    "title": f"Author Crossover Bridge<br>Fandom A: {u} (Cluster: {cluster_u})<br>Fandom B: {v} (Cluster: {cluster_v})<br>Common Authors ({len(true_common_authors)}): {', '.join(sorted(list(true_common_authors))[:5])}{'...' if len(true_common_authors) > 5 else ''}",
+                                    "color": {
+                                        "color": "#805ad5",
+                                        "highlight": "#553c9a",
+                                        "opacity": 0.6
+                                    }
+                                })
+                                crossover_edges_added += 1
             print(f"Added {crossover_edges_added} author crossover bridge edges across clusters to interactive network.")
 
         # Convert to JSON strings
@@ -921,6 +934,10 @@ class AO3FandomClustering:
         For clusters X and Y, the index is:
         Overlap(X, Y) = |Authors(X) & Authors(Y)| / min(|Authors(X)|, |Authors(Y)|)
         
+        Under the separate-works condition: an author is considered common between X and Y
+        only if they have at least 1 work in cluster X that is not a crossover with Y,
+        and at least 1 work in cluster Y that is not a crossover with X.
+        
         Returns a DataFrame summarizing the overlaps and identifying bridge authors.
         """
         df_temp = df_clustered.copy()
@@ -942,7 +959,12 @@ class AO3FandomClustering:
             else:
                 raise KeyError("Neither 'fandom_cluster' nor 'clustered_fandom' found in the DataFrame. Please specify cluster_col.")
 
-        # Get set of unique authors for each cluster, excluding 'Unknown'
+        # Precompute the set of fandom clusters for each work based on self.tag_to_cluster
+        df_temp['fandom_clusters_set'] = df_temp['parsed_fandoms'].apply(
+            lambda tags: {self.tag_to_cluster.get(t, t) for t in tags if pd.notna(t)}
+        )
+
+        # Get set of unique authors for each cluster
         cluster_authors = df_temp.groupby(cluster_col)['author_str'].apply(set).to_dict()
         clusters = list(cluster_authors.keys())
         num_clusters = len(clusters)
@@ -961,17 +983,31 @@ class AO3FandomClustering:
                     
                 common_authors = authors_x & authors_y
                 if len(common_authors) > 0:
-                    min_authors = min(len(authors_x), len(authors_y))
-                    index = len(common_authors) / min_authors
-                    overlap_results.append({
-                        "Cluster_A": c_x,
-                        "Cluster_B": c_y,
-                        "Authors_A_Count": len(authors_x),
-                        "Authors_B_Count": len(authors_y),
-                        "Common_Authors_Count": len(common_authors),
-                        "Author_Overlap_Index": index,
-                        "Bridge_Authors": sorted(list(common_authors))
-                    })
+                    # Filter common_authors under the separate-works crossover rule
+                    true_common_authors = set()
+                    for author in common_authors:
+                        author_works = df_temp[df_temp['author_str'] == author]
+                        works_x = author_works[author_works[cluster_col] == c_x]
+                        works_y = author_works[author_works[cluster_col] == c_y]
+                        
+                        non_crossover_x = works_x[works_x['fandom_clusters_set'].apply(lambda s: c_y not in s)]
+                        non_crossover_y = works_y[works_y['fandom_clusters_set'].apply(lambda s: c_x not in s)]
+                        
+                        if len(non_crossover_x) >= 1 and len(non_crossover_y) >= 1:
+                            true_common_authors.add(author)
+                            
+                    if len(true_common_authors) > 0:
+                        min_authors = min(len(authors_x), len(authors_y))
+                        index = len(true_common_authors) / min_authors
+                        overlap_results.append({
+                            "Cluster_A": c_x,
+                            "Cluster_B": c_y,
+                            "Authors_A_Count": len(authors_x),
+                            "Authors_B_Count": len(authors_y),
+                            "Common_Authors_Count": len(true_common_authors),
+                            "Author_Overlap_Index": index,
+                            "Bridge_Authors": sorted(list(true_common_authors))
+                        })
                     
         df_overlap = pd.DataFrame(overlap_results)
         if not df_overlap.empty:

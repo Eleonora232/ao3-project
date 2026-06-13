@@ -65,11 +65,40 @@ class AO3DataManipulator:
         )
         return self
 
+    def clean_dataset(self) -> 'AO3DataManipulator':
+        """
+        Cleans the dataset upstream:
+        - Drops duplicate rows by URL
+        - Keeps single author works only (len(parsed_authors) == 1)
+        - Keeps works with at most 5 fandom tags (len(parsed_fandoms) <= 5)
+        - Filters out empty authors and orphan accounts
+        - Filters out works with 0 words
+        """
+        # Drop duplicates by URL first to clean dataset uniquely
+        if 'URL' in self.df.columns:
+            self.df = self.df.drop_duplicates(subset=['URL'])
+
+        if 'parsed_authors' not in self.df.columns:
+            self.df['parsed_authors'] = self.df['Authors'].apply(self.parse_list)
+        if 'parsed_fandoms' not in self.df.columns:
+            self.df['parsed_fandoms'] = self.df['Fandom Tags'].apply(self.parse_list)
+
+        # Apply Filters
+        self.df = self.df[self.df['parsed_authors'].apply(lambda x: len(x) > 0 and x != ['orphan_account'])]
+        self.df = self.df[self.df['parsed_authors'].apply(lambda x: len(x) == 1)]
+        self.df = self.df[self.df['parsed_fandoms'].apply(lambda x: len(x) <= 5)]
+        
+        if 'Words' in self.df.columns:
+            self.df = self.df[self.df['Words'] > 0]
+            
+        return self
+
     def run_all_manipulations(self) -> pd.DataFrame:
         """
         Applies all data manipulations (first fandom tag, fandom tags count, and
         archive warning binary) and returns the modified DataFrame.
         """
+        self.clean_dataset()
         return (self.add_first_fandom_tag()
                     .add_fandom_tags_count()
                     .add_archive_warning_binary()
