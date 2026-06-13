@@ -1,0 +1,11 @@
+# Ignore large dataset files
+random works - Oct 2025.csv
+*.csv
+
+# Ignore Python and Jupyter cache files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Ignore OS-specific files
+.DS_Store
