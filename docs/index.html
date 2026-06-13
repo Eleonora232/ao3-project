@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapping AO3: Fandom Clusters & Crossover Bridges</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #0f172a;
@@ -250,7 +253,8 @@
         }
 
         /* Lists */
-        ul, ol {
+        ul,
+        ol {
             margin-left: 20px;
             margin-bottom: 25px;
         }
@@ -279,6 +283,7 @@
                 opacity: 0;
                 transform: translateY(15px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -290,34 +295,46 @@
             h1 {
                 font-size: 32px;
             }
+
             article {
                 font-size: 16px;
             }
+
             .container {
                 padding-top: 20px;
             }
+
             .network-iframe {
                 height: 450px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <div class="category-tag">Data Science & Networks</div>
-            <h1>Mapping AO3: Fandom Clusters & Crossover Bridges</h1>
+            <h1>Mapping AO3: Fandom Clusters & Authors as Bridges</h1>
             <div class="meta-info">
                 <div class="meta-item">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
                     <span>June 2026</span>
                 </div>
                 <div class="meta-item">
-                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
                     <span>Fandom Analyst</span>
                 </div>
                 <div class="meta-item">
-                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
                     <span>Interactive Analysis</span>
                 </div>
             </div>
@@ -325,37 +342,55 @@
 
         <article>
             <p>
-                In the massive digital archive of <strong>Archive of Our Own (AO3)</strong>, millions of fanfictions exist across thousands of distinct fandoms. While individual fandoms possess their own dedicated writer communities, authors frequently cross boundaries to write in multiple universes. This article visualizes the structured relationships (co-occurrences and clustering) between fandoms, maps crossover authors acting as bridges across distinct communities, and evaluates if these bridge authors achieve more relative popularity in smaller fandoms.
+                In the massive digital archive of <strong>Archive of Our Own (AO3)</strong>, millions of fanfictions
+                exist across thousands of distinct fandoms. While individual fandoms possess their own dedicated writer
+                communities, authors frequently cross boundaries to write in multiple universes. This article visualizes
+                the structured relationships (co-occurrences and clustering) between fandoms, maps crossover authors
+                acting as bridges across distinct communities, and evaluates if these bridge authors achieve more
+                relative popularity in smaller fandoms.
             </p>
 
             <h2>1. Fandom Co-occurrences & Co-Clustering</h2>
             <p>
-                To understand how fandoms relate, we analyzed works tagged with multiple fandoms. When tags appear together on a work, they represent a co-occurrence link. Instead of simple filtering, we built a co-occurrence network on all 8,205 unique fandom tags, clustering tags with a high similarity threshold into cohesive clusters before filtering.
+                To understand how fandoms relate, we analyzed works tagged with multiple fandoms. When tags appear
+                together on a work, they represent a co-occurrence link. Instead of simple filtering, we built a
+                co-occurrence network on all 8,205 unique fandom tags, clustering tags with a high similarity threshold
+                into cohesive clusters before filtering.
             </p>
             <p>
-                This pre-clustering method successfully resolved noise and giant components, merging closely related tags (such as consolidating <em>Captain Marvel (2019)</em> into the parent <em>Marvel Cinematic Universe Cluster</em>) while isolating accidental crossover links.
+                This pre-clustering method successfully resolved noise and giant components, merging closely related
+                tags (such as consolidating <em>Captain Marvel (2019)</em> into the parent <em>Marvel Cinematic Universe
+                    Cluster</em>) while isolating accidental crossover links.
             </p>
 
             <div class="network-card">
                 <div class="network-card-header">
-                    <div class="network-card-title"><span class="indicator"></span> Interactive Fandom Network Map (Physics-Enabled)</div>
+                    <div class="network-card-title"><span class="indicator"></span> Interactive Fandom Network Map
+                        (Physics-Enabled)</div>
                     <a href="fandom_network.html" target="_blank" class="network-card-link">Open Fullscreen ↗</a>
                 </div>
                 <iframe class="network-iframe" src="fandom_network.html"></iframe>
             </div>
 
             <p>
-                The interactive map above allows you to explore these co-occurrence relations. You can filter the minimum work occurrences threshold in real-time, search for specific fandom tags to zoom in, and see how nodes readjust slowly and smoothly to the layouts.
+                The interactive map above allows you to explore these co-occurrence relations. You can filter the
+                minimum work occurrences threshold in real-time, search for specific fandom tags to zoom in, and see how
+                nodes readjust slowly and smoothly to the layouts.
             </p>
 
             <h2>2. Fandom Tag Occurrences Frequency & Distribution</h2>
             <p>
-                To determine reasonable baseline occurrences filters, we plotted the cumulative distribution of fandom sizes in our cleaned dataset:
+                To determine reasonable baseline occurrences filters, we plotted the cumulative distribution of fandom
+                sizes in our cleaned dataset:
             </p>
 
             <!-- Image placeholder for occurrences plot -->
             <div class="image-placeholder">
-                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
                 <div class="placeholder-text">
                     <strong>Fandom Size Distribution Plot</strong><br>
                     Add a screenshot of the inclusive Matplotlib plot here (frequency up to 150 works per fandom).
@@ -364,12 +399,16 @@
             </div>
 
             <p>
-                The long tail of the distribution shows that while a few giant fandoms (like Marvel or Harry Potter) accumulate thousands of works, the average occurrences per fandom is 8.63 with a median of 1.00. This highlights the massive abundance of smaller, niche fandom tags.
+                The long tail of the distribution shows that while a few giant fandoms (like Marvel or Harry Potter)
+                accumulate thousands of works, the average occurrences per fandom is 8.63 with a median of 1.00. This
+                highlights the massive abundance of smaller, niche fandom tags.
             </p>
 
             <h2>3. Authors as Bridges Across Fandoms</h2>
             <p>
-                When authors write in multiple distinct fandoms, they build structural crossover bridges. We mapped this cross-cluster communication network by calculating the <strong>Author Overlap Index</strong> between all cluster pairs:
+                When authors write in multiple distinct fandoms, they build structural crossover bridges. We mapped this
+                cross-cluster communication network by calculating the <strong>Author Overlap Index</strong> between all
+                cluster pairs:
             </p>
             <div class="callout-box">
                 <strong>Author Overlap Index:</strong><br>
@@ -378,33 +417,50 @@
 
             <div class="network-card">
                 <div class="network-card-header">
-                    <div class="network-card-title"><span class="indicator"></span> Authors as Bridges Across Fandoms Network Map</div>
-                    <a href="cluster_author_network.html" target="_blank" class="network-card-link">Open Fullscreen ↗</a>
+                    <div class="network-card-title"><span class="indicator"></span> Authors as Bridges Across Fandoms
+                        Network Map</div>
+                    <a href="cluster_author_network.html" target="_blank" class="network-card-link">Open Fullscreen
+                        ↗</a>
                 </div>
                 <iframe class="network-iframe" src="cluster_author_network.html"></iframe>
             </div>
 
             <p>
-                In the bridge map above, each node represents a fandom cluster (its size proportional to the unique author count). Adjusting the "Min Bridge Authors" slider dynamically adjusts the network, showcasing how strong or weak the connections are. You can use the Yes/No buttons to toggle the visibility of isolated clusters.
+                In the bridge map above, each node represents a fandom cluster (its size proportional to the unique
+                author count). Adjusting the "Min Bridge Authors" slider dynamically adjusts the network, showcasing how
+                strong or weak the connections are. You can use the Yes/No buttons to toggle the visibility of isolated
+                clusters.
             </p>
 
             <h2>4. Do Bridge Authors Drive Popularity in Smaller Fandoms?</h2>
             <p>
-                Finally, we investigated whether bridge authors achieve relatively higher popularity in smaller fandoms. For each bridge author's work, we calculated its popularity ratio (e.g., <strong>Hits</strong>, <strong>Kudos</strong>, or <strong>Comments</strong>) compared to the average and median values within that specific fandom:
+                Finally, we investigated whether bridge authors achieve relatively higher popularity in smaller fandoms.
+                For each bridge author's work, we calculated its popularity ratio (e.g., <strong>Hits</strong>,
+                <strong>Kudos</strong>, or <strong>Comments</strong>) compared to the average and median values within
+                that specific fandom:
             </p>
 
             <!-- Image placeholder for popularity scatter plot -->
             <div class="image-placeholder">
-                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
                 <div class="placeholder-text">
                     <strong>Bridge Author Work Popularity vs. Fandom Size Scatter Plot</strong><br>
                     Add a screenshot of the log-log popularity ratio vs. fandom size scatter plot here.
                 </div>
-                <button class="placeholder-btn" onclick="alert('Copy your saved scatter plot image here.')">Add Image</button>
+                <button class="placeholder-btn" onclick="alert('Copy your saved scatter plot image here.')">Add
+                    Image</button>
             </div>
 
             <p>
-                By calculating the Spearman rank correlation coefficient, we found that for <em>Hits</em> binned by the first fandom tag, the correlation is slightly negative (<strong>-0.0145</strong>, p-value: <strong>7.202e-02</strong>). This indicates a very minor, statistically non-significant negative correlation, suggesting that while bridge authors are highly active, their popularity relative to the fandom baseline remains mostly uniform across both small and large fandoms.
+                By calculating the Spearman rank correlation coefficient, we found that for <em>Hits</em> binned by the
+                first fandom tag, the correlation is slightly negative (<strong>-0.0145</strong>, p-value:
+                <strong>7.202e-02</strong>). This indicates a very minor, statistically non-significant negative
+                correlation, suggesting that while bridge authors are highly active, their popularity relative to the
+                fandom baseline remains mostly uniform across both small and large fandoms.
             </p>
         </article>
 
@@ -413,4 +469,5 @@
         </footer>
     </div>
 </body>
+
 </html>
