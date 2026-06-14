@@ -382,14 +382,65 @@
                 exist across thousands of distinct fandoms. While individual fandoms possess their own dedicated writer
                 communities, authors frequently cross boundaries to write in multiple universes. This article visualizes
                 the structured relationships (co-occurrences and clustering) between fandoms, maps crossover authors
-                acting as bridges across distinct communities, and evaluates if these bridge authors achieve more
-                relative popularity in smaller fandoms.
+                acting as bridges across distinct communities, and evaluates how popularity dynamics differ across fandom
+                sizes.
             </p>
 
-            <h2>1. Fandom Co-occurrences & Co-Clustering</h2>
+            <h2>1. The Long Tail of Fandom &amp; The Rich-Get-Richer Effect</h2>
             <p>
-                To understand how fandoms relate, we analyzed works tagged with multiple fandoms. When tags appear
-                together on a work, they represent a co-occurrence link. Instead of simple filtering, we built a
+                AO3's fandom landscape is deeply unequal. While thousands of niche communities exist with just a handful
+                of works, a small number of mega-fandoms (like the Marvel Cinematic Universe or Harry Potter) accumulate
+                tens of thousands. To explore this, we segmented fandoms into three size tiers based on the number of
+                works under each primary fandom tag:
+            </p>
+            <div class="callout-box">
+                <strong>Fandom Size Tiers:</strong><br>
+                🔵 <strong>Small</strong> — fewer than 50 works &nbsp;|&nbsp;
+                🟠 <strong>Medium</strong> — 50 to 500 works &nbsp;|&nbsp;
+                🔴 <strong>Large</strong> — more than 500 works
+            </div>
+            <p>
+                Our cleaned dataset spans the full distribution: the average occurrences per fandom is 8.63 with a
+                median of 1.00, confirming a massive long tail of niche fandom tags. Yet when we look at raw work
+                counts, the distribution of fandom sizes in our data skews toward medium and large communities.
+            </p>
+
+            <!-- Fandom distribution plot -->
+            <div class="blog-image-container">
+                <img src="fandom_distribution.png" alt="Fandom Size Distribution Plot" class="blog-image">
+                <div class="image-caption">Cumulative distribution of fandom sizes in the cleaned dataset (up to 150 works threshold). The long tail is clearly visible.</div>
+            </div>
+
+            <p>
+                Crucially, the long tail is not just a counting artifact — it reflects a fundamentally different
+                <em>popularity economy</em>. While the median hit count is comparable across fandom sizes, the
+                upper tail (p90, p99) is wildly skewed toward large fandoms. The plot below shows violin distributions
+                of Hits, Kudos, and Comments across fandom size tiers, restricted to works by <strong>bridge
+                authors</strong> (authors active in multiple distinct fandoms):
+            </p>
+
+            <!-- Fandom size distributions bridge plot -->
+            <div class="blog-image-container">
+                <img src="fandom_size_distributions_bridge.png"
+                    alt="Hit, Kudos and Comments distributions by fandom size for bridge authors" class="blog-image">
+                <div class="image-caption">Distribution of Hits, Kudos, and Comments by fandom size tier for bridge
+                    authors. Median (p50) values are similar across tiers, but p90 and p99 are dramatically higher in
+                    large fandoms — confirming a rich-get-richer dynamic at the tail.</div>
+            </div>
+
+            <p>
+                The data confirms the hypothesis: for bridge authors writing in large fandoms, the p90 for Hits reaches
+                <strong>3,777</strong> vs. <strong>2,874</strong> in small fandoms — a moderate gap at the 90th
+                percentile. But at the p99, large fandoms reach <strong>30,689</strong> vs.
+                <strong>14,719</strong> in small fandoms — more than <strong>2× higher</strong>. The median (p50),
+                however, remains broadly comparable (~400–600 Hits), meaning the rich-get-richer effect is a
+                <em>tail phenomenon</em>, not a universal one.
+            </p>
+
+            <h2>2. Fandom Co-occurrences &amp; Co-Clustering</h2>
+            <p>
+                To understand how fandoms relate structurally, we analyzed works tagged with multiple fandoms. When tags
+                appear together on a work, they represent a co-occurrence link. Instead of simple filtering, we built a
                 co-occurrence network on all 8,205 unique fandom tags, clustering tags with a high similarity threshold
                 into cohesive clusters before filtering.
             </p>
@@ -414,29 +465,11 @@
                 nodes readjust slowly and smoothly to the layouts.
             </p>
 
-            <h2>2. Fandom Tag Occurrences Frequency & Distribution</h2>
-            <p>
-                To determine reasonable baseline occurrences filters, we plotted the cumulative distribution of fandom
-                sizes in our cleaned dataset:
-            </p>
-
-            <!-- Fandom distribution plot -->
-            <div class="blog-image-container">
-                <img src="fandom_distribution.png" alt="Fandom Size Distribution Plot" class="blog-image">
-                <div class="image-caption">Impact of Occurrence Threshold on Fandom Tags and Works Distribution (cumulative range up to 150).</div>
-            </div>
-
-            <p>
-                The long tail of the distribution shows that while a few giant fandoms (like Marvel or Harry Potter)
-                accumulate thousands of works, the average occurrences per fandom is 8.63 with a median of 1.00. This
-                highlights the massive abundance of smaller, niche fandom tags.
-            </p>
-
             <h2>3. Authors as Bridges Across Fandoms</h2>
             <p>
-                When authors write in multiple distinct fandoms, they build structural crossover bridges. We mapped this
-                cross-cluster communication network by calculating the <strong>Author Overlap Index</strong> between all
-                cluster pairs:
+                When authors write in multiple distinct fandoms (via separate, non-crossover works), they build
+                structural bridges between communities. We mapped this cross-cluster communication network by calculating
+                the <strong>Author Overlap Index</strong> between all cluster pairs:
             </p>
             <div class="callout-box">
                 <strong>Author Overlap Index:</strong><br>
@@ -462,10 +495,10 @@
 
             <h2>4. Do Bridge Authors Drive Popularity in Smaller Fandoms?</h2>
             <p>
-                Finally, we investigated whether bridge authors achieve relatively higher popularity in smaller fandoms.
-                For each bridge author's work, we calculated its popularity ratio (e.g., <strong>Hits</strong>,
-                <strong>Kudos</strong>, or <strong>Comments</strong>) compared to the average and median values within
-                that specific fandom:
+                We investigated whether bridge authors achieve relatively higher popularity in smaller fandoms. For each
+                bridge author's work, we calculated its popularity ratio (e.g., <strong>Hits</strong>,
+                <strong>Kudos</strong>, or <strong>Comments</strong>) compared to the median values within that specific
+                fandom:
             </p>
 
             <!-- Bridge Author Work Popularity vs. Fandom Size Scatter Plot -->
@@ -479,22 +512,9 @@
                 first fandom tag, the correlation is slightly negative (<strong>-0.0145</strong>, p-value:
                 <strong>7.202e-02</strong>). This indicates a very minor, statistically non-significant negative
                 correlation, suggesting that while bridge authors are highly active, their popularity relative to the
-                fandom baseline remains mostly uniform across both small and large fandoms.
+                fandom baseline remains mostly uniform across both small and large fandoms — consistent with the
+                finding that the rich-get-richer effect is concentrated at the extreme tail.
             </p>
-
-            <h2>5. Deep Dive: Marvel vs. Teen Wolf Crossover</h2>
-            <p>
-                To further investigate this behavior, we isolated the crossover bridge authors between a mega-fandom (<strong>Marvel Cinematic Universe/Avengers</strong>) and a relatively small fandom (<strong>Teen Wolf</strong>). By applying regex filtering to the raw Fandom Tags (excluding crossover works to focus on separate writing instances and preventing duplicate rows), we identified 10 true bridge authors.
-            </p>
-            <p>
-                Our analysis shows that works by these bridge authors in the Teen Wolf fandom achieved a median popularity of 2925 Hits, compared to 1566 Hits in Marvel. However, when comparing their popularity relative to the fandom's baseline, they achieved a higher relative ratio in Marvel (<strong>1.43x</strong> the overall median) than in Teen Wolf (<strong>1.36x</strong>).
-            </p>
-
-            <!-- Marvel vs Teen Wolf Comparison Plot -->
-            <div class="blog-image-container">
-                <img src="marvel_teen_wolf_deep_dive.png" alt="Marvel vs. Teen Wolf Bridge Author Crossover Comparison" class="blog-image">
-                <div class="image-caption">Deep Dive comparison of absolute medians and relative popularity ratios for Marvel vs. Teen Wolf bridge authors (excluding crossover works).</div>
-            </div>
         </article>
 
         <footer>
