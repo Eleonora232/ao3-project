@@ -437,6 +437,81 @@
                 <em>tail phenomenon</em>, not a universal one.
             </p>
 
+            <h3>Measuring Inequality: Gini Coefficient &amp; p99/p50</h3>
+            <p>
+                To quantify this inequality more rigorously at the <em>per-fandom</em> level, we computed two
+                complementary metrics on the distribution of Hits across all works within each fandom:
+            </p>
+
+            <div class="callout-box">
+                <strong>Gini Coefficient</strong><br>
+                Borrowed from economics, the Gini coefficient measures how unevenly a quantity is distributed across
+                a population. For a fandom with <em>n</em> works sorted by ascending hits
+                (x<sub>1</sub> ≤ x<sub>2</sub> ≤ … ≤ x<sub>n</sub>):
+                <br><br>
+                <code style="font-size:14px; color:#e2e8f0;">
+                    G = (2 · Σ<sub>i</sub> i·xᵢ) / (n · Σxᵢ) − (n+1)/n
+                </code>
+                <br><br>
+                <strong>G = 0</strong> means every work in the fandom has exactly the same number of hits (perfect
+                equality). <strong>G = 1</strong> means one single work absorbs all the hits (maximum concentration).
+                A Gini of 0.75, for instance, is comparable to some of the most unequal real-world income
+                distributions.
+            </div>
+
+            <div class="callout-box">
+                <strong>p99/p50 Ratio</strong><br>
+                The p99/p50 ratio is a more intuitive, percentile-based measure of tail concentration. It answers
+                the question: <em>"how many times more hits does a blockbuster work (top 1%) receive compared to
+                the typical (median) work in the same fandom?"</em>
+                <br><br>
+                <code style="font-size:14px; color:#e2e8f0;">
+                    p99/p50 = Hits at the 99th percentile / Hits at the 50th percentile
+                </code>
+                <br><br>
+                A ratio of <strong>44×</strong> (observed for large fandoms) means the top-1% work gets 44 times
+                more hits than the median work. Unlike Gini, which summarises the entire distribution,
+                p99/p50 focuses purely on the extremes — making it sensitive to blockbuster outliers.
+            </div>
+
+            <p>
+                We computed both metrics for all 1,424 fandoms with at least 5 works, then plotted them against
+                fandom size (log scale). A <strong>LOWESS</strong> smoothing curve (dark blue dashed line) captures
+                the overall trend through the scatter:
+            </p>
+
+            <!-- Inequality scatter plot -->
+            <div class="blog-image-container">
+                <img src="inequality_vs_fandom_size.png"
+                    alt="Gini coefficient and p99/p50 ratio vs fandom size scatter plot" class="blog-image">
+                <div class="image-caption">Per-fandom Gini coefficient (left) and p99/p50 Hit ratio (right) plotted
+                    against fandom size on a log scale. Each dot is one fandom, coloured by size tier. The dashed
+                    LOWESS trend confirms that inequality rises sharply with fandom size.</div>
+            </div>
+
+            <p>
+                Both metrics show a clear positive relationship with fandom size
+                (Spearman r = <strong>+0.50</strong> for Gini, <strong>+0.57</strong> for p99/p50). The violin
+                plots below summarise the distributions within each size tier:
+            </p>
+
+            <!-- Inequality by tier violin plot -->
+            <div class="blog-image-container">
+                <img src="inequality_by_tier.png"
+                    alt="Gini and p99/p50 violin plots by fandom size tier" class="blog-image">
+                <div class="image-caption">Distribution of Gini coefficient and p99/p50 ratio across fandom size
+                    tiers. Median values are annotated. Large fandoms cluster at Gini ≈ 0.75 and p99/p50 ≈ 44×,
+                    while small fandoms are far more egalitarian (Gini ≈ 0.51, p99/p50 ≈ 6×).</div>
+            </div>
+
+            <p>
+                The pattern is striking. In a <strong>large fandom</strong>, the top-1% work receives on average
+                <strong>44× more hits</strong> than the median — a level of concentration comparable to extreme
+                economic inequality. In a <strong>small fandom</strong>, that ratio drops to just <strong>6×</strong>.
+                Notably, <em>Original Work</em> (non-IP fan fiction) has the highest Gini (0.95) and a p99/p50 of
+                756× — driven by a handful of viral stories far outpacing thousands of niche pieces.
+            </p>
+
             <h2>2. Fandom Co-occurrences &amp; Co-Clustering</h2>
             <p>
                 To understand how fandoms relate structurally, we analyzed works tagged with multiple fandoms. When tags
